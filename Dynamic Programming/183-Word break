@@ -1,0 +1,31 @@
+class Solution {
+public:
+
+    bool helper(int indx,string s,unordered_map<string,int>&ump,vector<int>&dp){
+        if(indx==s.size()){
+            return true;
+        }
+        if(dp[indx]!=-1){
+            return dp[indx];
+        }
+        string temp="";
+        for(int i=indx;i<s.size();i++){
+            temp+=s[i];
+            if(ump.find(temp)!=ump.end()){
+                if(helper(i+1,s,ump,dp)){
+                    return dp[indx]=true;
+                }
+            }
+        }
+        return dp[indx]=false;
+    }
+
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_map<string,int> ump;
+        for(int i=0;i<wordDict.size();i++){
+            ump[wordDict[i]]++;
+        }
+        vector<int> dp(s.size(),-1);
+        return helper(0,s,ump,dp);
+    }
+};
